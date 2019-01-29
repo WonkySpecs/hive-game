@@ -1,7 +1,6 @@
 from enum import Enum, auto
 
 class Creature(Enum):
-	BLANK = auto()
 	QUEEN = auto()
 	BEETLE = auto()
 	GRASSHOPPER = auto()
