@@ -1,13 +1,16 @@
 from enum import Enum, auto
+from dataclasses import dataclass
+
 
 class Creature(Enum):
-	QUEEN = auto()
-	BEETLE = auto()
-	GRASSHOPPER = auto()
-	SPIDER = auto()
-	ANT = auto()
+    QUEEN = auto()
+    BEETLE = auto()
+    GRASSHOPPER = auto()
+    SPIDER = auto()
+    ANT = auto()
 
+
+@dataclass(frozen=True)
 class Tile:
-	def __init__(self, creature, player):
-		self.creature = creature
-		self.player = player
+    creature: Creature
+    player: int
