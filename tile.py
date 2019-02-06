@@ -12,5 +12,6 @@ class Creature(Enum):
 
 @dataclass(frozen=True)
 class Tile:
+    __slots__ = 'creature', 'player'
     creature: Creature
     player: int
