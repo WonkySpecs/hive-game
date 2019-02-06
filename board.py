@@ -27,11 +27,6 @@ class Board:
             self.grid[coordinate] = Stack()
             return None
 
-    def neighbours(self, coordinate: Tuple[int, int]) -> List[Tile]:
-        (i, j) = coordinate
-        neighbouring_coordinates = [(i - 1, j + 1), (i - 1, j), (i - 1, j - 1), (i, j + 1), (i + 1, j), (i, j - 1)]
-        return [self.tile_at((x, y)) for (x, y) in neighbouring_coordinates]
-
     def is_surrounded(self, coordinate: Tuple[int, int]) -> bool:
         for neighbour in self.neighbours(coordinate):
             if not neighbour:
@@ -39,8 +34,37 @@ class Board:
 
         return True
 
+    def neighbours(self, coordinate: Tuple[int, int]) -> List[Tile]:
+        return [self.tile_at((x, y)) for (x, y) in Board._neighbouring_coordinates(coordinate)]
+
+    @staticmethod
+    def _neighbouring_coordinates(coordinate: Tuple[int, int]) -> List[Tuple[int, int]]:
+        (i, j) = coordinate
+        return [(i - 1, j + 1), (i - 1, j), (i - 1, j - 1), (i, j + 1), (i + 1, j), (i, j - 1)]
+
     def get_queen_coordinates(self) -> List:
         return self.queen_coordinates
+
+    def one_hive(self) -> bool:
+        """returns True if all tiles on the board are connected, otherwise False"""
+        num_tiles = 0
+        a_coord = None
+        for coord, stack in self.grid.items():
+            if stack.top():
+                num_tiles += 1
+                a_coord = coord
+
+        unexplored_coords = {a_coord}
+        coords_with_connected_tiles = set()
+        while unexplored_coords:
+            exploring = unexplored_coords.pop()
+            coords_with_connected_tiles.add(exploring)
+            for neighbour_coord in self._neighbouring_coordinates(exploring):
+                neighbour = self.tile_at(neighbour_coord)
+                if neighbour and neighbour_coord not in coords_with_connected_tiles:
+                    unexplored_coords.add(neighbour_coord)
+
+        return len(coords_with_connected_tiles) == num_tiles
 
     def __iter__(self):
         return iter(self.grid.items())
