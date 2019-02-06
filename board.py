@@ -40,7 +40,13 @@ class Board:
     @staticmethod
     def _neighbouring_coordinates(coordinate: Tuple[int, int]) -> List[Tuple[int, int]]:
         (i, j) = coordinate
-        return [(i - 1, j + 1), (i - 1, j), (i - 1, j - 1), (i, j + 1), (i + 1, j), (i, j - 1)]
+        neighbours = [(i - 1, j), (i + 1, j)]
+        if j % 2 == 0:
+            neighbours.extend([(i - 1, j + 1), (i, j + 1), (i - 1, j - 1), (i, j - 1)])
+        else:
+            neighbours.extend([(i, j + 1), (i + 1, j + 1), (i, j - 1), (i, j + 1)])
+
+        return neighbours
 
     def get_queen_coordinates(self) -> List:
         return self.queen_coordinates
@@ -64,6 +70,7 @@ class Board:
                 if neighbour and neighbour_coord not in coords_with_connected_tiles:
                     unexplored_coords.add(neighbour_coord)
 
+        print(coords_with_connected_tiles)
         return len(coords_with_connected_tiles) == num_tiles
 
     def __iter__(self):
