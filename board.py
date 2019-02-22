@@ -20,7 +20,7 @@ class Board:
     def remove_tile(self, coordinate: Tuple[int, int]) -> None:
         self.grid[coordinate].pop()
 
-    def tile_at(self, coordinate: Tuple[int, int]):
+    def get_tile_at(self, coordinate: Tuple[int, int]):
         try:
             return self.grid.get(coordinate).top()
         except AttributeError:
@@ -28,14 +28,14 @@ class Board:
             return None
 
     def is_surrounded(self, coordinate: Tuple[int, int]) -> bool:
-        for neighbour in self.neighbours(coordinate):
+        for neighbour in self.get_neighbouring_tiles(coordinate):
             if not neighbour:
                 return False
 
         return True
 
-    def neighbours(self, coordinate: Tuple[int, int]) -> List[Tile]:
-        return [self.tile_at((x, y)) for (x, y) in Board._neighbouring_coordinates(coordinate)]
+    def get_neighbouring_tiles(self, coordinate: Tuple[int, int]) -> List[Tile]:
+        return [self.get_tile_at((x, y)) for (x, y) in Board._neighbouring_coordinates(coordinate)]
 
     @staticmethod
     def _neighbouring_coordinates(coordinate: Tuple[int, int]) -> List[Tuple[int, int]]:
@@ -51,7 +51,7 @@ class Board:
     def get_queen_coordinates(self) -> List:
         return self.queen_coordinates
 
-    def one_hive(self) -> bool:
+    def is_hive_connected(self) -> bool:
         """returns True if all tiles on the board are connected, otherwise False"""
         num_tiles = 0
         a_coord = None
@@ -66,12 +66,9 @@ class Board:
             exploring = unexplored_coords.pop()
             coords_with_connected_tiles.add(exploring)
             for neighbour_coord in self._neighbouring_coordinates(exploring):
-                neighbour = self.tile_at(neighbour_coord)
+                neighbour = self.get_tile_at(neighbour_coord)
                 if neighbour and neighbour_coord not in coords_with_connected_tiles:
                     unexplored_coords.add(neighbour_coord)
 
         print(coords_with_connected_tiles)
         return len(coords_with_connected_tiles) == num_tiles
-
-    def __iter__(self):
-        return iter(self.grid.items())
