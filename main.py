@@ -1,29 +1,28 @@
-from board import Board
-from tile import Tile, Creature
-from game_rules import *
+from game import Game
+from move import Move, MoveType
+from tile import Creature
 
-game_board = Board(Tile(Creature.QUEEN, 0))
-winner = calculate_winner(game_board)
 
-while not winner:
-    # get input
+def player_1_moves():
+    moves = [Move(MoveType.PLACE, Creature.QUEEN, (0, 0)),
+             Move(MoveType.PLACE, Creature.SPIDER, (1, 0)),
+             Move(MoveType.PLACE, Creature.SPIDER, (0, 1)),
+             Move(MoveType.PLACE, Creature.SPIDER, (0, -1))]
+    for move in moves:
+        yield move
 
-    # if place
-    # place if possible
-    # else if move
-    # move if possible
-    print("Playing")
-    game_board.add_tile(Tile(Creature.SPIDER, 1), (-1, 0))
-    print(calculate_winner(game_board))
-    game_board.add_tile(Tile(Creature.SPIDER, 0), (1, 0))
-    print(calculate_winner(game_board))
-    game_board.add_tile(Tile(Creature.QUEEN, 1), (-1, 1))
-    print(calculate_winner(game_board))
-    game_board.add_tile(Tile(Creature.SPIDER, 0), (0, 1))
-    print(calculate_winner(game_board))
-    game_board.add_tile(Tile(Creature.QUEEN, 1), (-1, -1))
-    print(calculate_winner(game_board))
-    game_board.add_tile(Tile(Creature.SPIDER, 0), (0, -1))
-    winner = calculate_winner(game_board)
-print(winner)
-print(game_board.get_queen_coordinates())
+
+def player_2_moves():
+    yield Move(MoveType.PLACE, Creature.SPIDER, (-1, 0))
+    yield Move(MoveType.PLACE, Creature.QUEEN, (-1, 1))
+    yield Move(MoveType.PLACE, Creature.ANT, (-1, -1))
+    yield Move(MoveType.PLACE, Creature.QUEEN, (0, 0))
+
+
+def moves_from_console():
+    pass
+
+
+if __name__ == "__main__":
+    game = Game([player_1_moves(), player_2_moves()])
+    game.play()

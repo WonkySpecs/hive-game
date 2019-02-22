@@ -4,10 +4,11 @@ from typing import List, Tuple, Dict
 
 
 class Board:
-    def __init__(self, first_tile: Tile):
+    def __init__(self, first_tile: Tile = None):
         self.grid: Dict[Tuple[int, int], Stack] = dict()
         self.queen_coordinates: List[Tuple[int, int]] = [None, None]
-        self.add_tile(first_tile, (0, 0))
+        if first_tile:
+            self.add_tile(first_tile, (0, 0))
 
     def add_tile(self, tile: Tile, coordinate: Tuple[int, int]):
         if tile.creature == Creature.QUEEN:
@@ -19,6 +20,10 @@ class Board:
 
     def remove_tile(self, coordinate: Tuple[int, int]) -> None:
         self.grid[coordinate].pop()
+
+    def move_tile(self, start_coordinate, end_coordinate):
+        tile = self.grid[start_coordinate].pop()
+        self.add_tile(tile, end_coordinate)
 
     def get_tile_at(self, coordinate: Tuple[int, int]):
         try:
