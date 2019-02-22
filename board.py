@@ -70,5 +70,4 @@ class Board:
                 if neighbour and neighbour_coord not in coords_with_connected_tiles:
                     unexplored_coords.add(neighbour_coord)
 
-        print(coords_with_connected_tiles)
         return len(coords_with_connected_tiles) == num_tiles
