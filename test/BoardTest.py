@@ -56,3 +56,32 @@ class BoardTest(unittest.TestCase):
         board.add_tile(Tile(Creature.ANT, 1), (2, -1))
         board.add_tile(Tile(Creature.ANT, 1), (3, 0))
         self.assertFalse(board.is_hive_connected())
+
+    def test__neighbouring_coordinates_even_column_even_row(self):
+        actual = Board._neighbouring_coordinates((0, 0))
+        expected = [(0, 1), (1, 0), (0, -1), (-1, -1), (-1, 0), (-1, 1)]
+
+        self.assert_coordinate_lists_match(expected, actual)
+
+    def test__neighbouring_coordinates_odd_column_even_row(self):
+        actual = Board._neighbouring_coordinates((0, 1))
+        expected = [(1, 2), (1, 1), (1, 0), (0, 0), (-1, 1), (0, 2)]
+
+        self.assert_coordinate_lists_match(expected, actual)
+
+    def test__neighbouring_coordinates_even_column_odd_row(self):
+        actual = Board._neighbouring_coordinates((1, 0))
+        expected = [(1, 1), (2, 0), (1, -1), (0, -1), (0, 0), (0, 1)]
+
+        self.assert_coordinate_lists_match(expected, actual)
+
+    def test__neighbouring_coordinates_odd_column_odd_row(self):
+        actual = Board._neighbouring_coordinates((-1, -1))
+        expected = [(0, 0), (0, -1), (0, -2), (-1, -2), (-2, -1), (-1, 0)]
+
+        self.assert_coordinate_lists_match(expected, actual)
+
+    def assert_coordinate_lists_match(self, expected, actual):
+        self.assertTrue(len(expected) == len(actual), f"Expected {len(expected)} coordinates, got {len(actual)} coordinates")
+        for coord in expected:
+            self.assertTrue(coord in actual, f"Expected coordinate {coord} was not found")

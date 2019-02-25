@@ -49,7 +49,7 @@ class Board:
         if j % 2 == 0:
             neighbours.extend([(i - 1, j + 1), (i, j + 1), (i - 1, j - 1), (i, j - 1)])
         else:
-            neighbours.extend([(i, j + 1), (i + 1, j + 1), (i, j - 1), (i, j + 1)])
+            neighbours.extend([(i, j + 1), (i + 1, j + 1), (i, j - 1), (i + 1, j - 1)])
 
         return neighbours
 
