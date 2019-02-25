@@ -15,3 +15,6 @@ class Tile:
     __slots__ = 'creature', 'player'
     creature: Creature
     player: int
+
+    def __str__(self):
+        return f"Player {self.player} {self.creature}"

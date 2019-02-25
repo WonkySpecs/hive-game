@@ -35,5 +35,11 @@ class Move:
         elif self.move_type == MoveType.MOVE:
             return lambda board, player: Board.move_tile(board, self.tile_identifier, self.target_coordinate)
 
+    def is_legal(self, game_state):
+        if self.move_type == MoveType.PLACE:
+            return game_state.is_placement_legal(self.tile_identifier, self.target_coordinate)
+        elif self.move_type == MoveType.MOVE:
+            return game_state.is_movement_legal(self.tile_identifier, self.target_coordinate)
+
     def __str__(self):
         return f"Move - {self.move_type} {self.tile_identifier}, target_coordinate {self.target_coordinate}"

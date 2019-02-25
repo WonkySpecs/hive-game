@@ -76,3 +76,11 @@ class Board:
                     unexplored_coords.add(neighbour_coord)
 
         return len(coords_with_connected_tiles) == num_tiles
+
+    def __str__(self):
+        s = "Board:\n"
+        for coord, stack in self.grid.items():
+            tile = stack.top()
+            if tile:
+                s += f"{coord}: {tile}\n"
+        return s

@@ -11,7 +11,21 @@ class Game:
 
 		while not self.game_state.calculate_winner():
 			move = next(self.player_inputs[self.game_state.player_turn])
-			if self.game_state.is_valid_move(move):
+			legal, msg = move.is_legal(self.game_state)
+			if legal:
 				move.translate_to_board_function()(self.game_state.board, self.game_state.player_turn)
+				self.game_state.move_history.append(move)
 				self.game_state.next_player_turn()
+			else:
+				print("Illegal move: " + msg)
+			print(self.game_state.board)
+
 		print(f"Player(s) {self.game_state.calculate_winner()} won")
+
+	def get_game_history(self):
+		history = ""
+		counter = 1
+		for move in self.game_state.move_history:
+			history += f"Move {counter}: {move}\n"
+			counter += 1
+		return history
