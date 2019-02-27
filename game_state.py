@@ -1,5 +1,7 @@
 from player import Player
 from board import Board
+from tile import Creature
+from message_strings import IllegalPlacement, IllegalMovement
 
 
 class GameState:
@@ -25,17 +27,18 @@ class GameState:
 
     def is_placement_legal(self, tile_creature, coordinate):
         if tile_creature not in self.players[self.player_turn].unplaced_creatures:
-            return False, f"Tile {tile_creature} not available for player to place"
+            return False, IllegalPlacement.creature_unavailable
 
         if not self.board.queen_coordinates[self.player_turn] \
-                and (len(self.move_history) - self.player_turn) / len(self.players) >= 3:
-            return False, "Player must place queen in first 4 moves"
+                and (len(self.move_history) - self.player_turn) / len(self.players) >= 3\
+                and tile_creature is not Creature.QUEEN:
+            return False, IllegalPlacement.queen_placement_required
 
         if self.board.get_tile_at(coordinate):
-            return False, "Tile must be placed in an empty space"
+            return False, IllegalPlacement.space_not_empty
 
         if len(self.move_history) < len(self.players):
-            return True, "First move is not restricted by placement rules"
+            return True
 
         neighbours = self.board.get_neighbouring_tiles(coordinate)
         friendly_piece_adjacent = False
@@ -43,11 +46,11 @@ class GameState:
         for neighbouring_tile in neighbours:
             if neighbouring_tile:
                 if neighbouring_tile.player != self.player_turn:
-                    return False, "Tile cannot be placed touching opponents piece"
+                    return False, IllegalPlacement.opponent_tile_adjacent
                 else:
                     friendly_piece_adjacent = True
 
-        return friendly_piece_adjacent, "Tile must be placed touching a friendly piece"
+        return friendly_piece_adjacent, IllegalPlacement.no_friendly_tile_adjacent
 
     def is_movement_legal(self, start_coordinate, end_coordinate):
         return True
