@@ -42,16 +42,17 @@ class GameState:
         if self.board.get_tile_at(coordinate):
             return False, IllegalPlacement.space_not_empty
 
-        if len(self.move_history) < len(self.players):
-            return True, None
-
         neighbours = self.board.get_neighbouring_tiles(coordinate)
         friendly_piece_adjacent = False
 
         for neighbouring_tile in neighbours:
             if neighbouring_tile:
                 if neighbouring_tile.player != self.player_turn:
-                    return False, IllegalPlacement.opponent_tile_adjacent
+                    # On a player's first turn, they must place their tile adjacent to an opponents
+                    if len(self.move_history) < len(self.players):
+                        return True, None
+                    else:
+                        return False, IllegalPlacement.opponent_tile_adjacent
                 else:
                     friendly_piece_adjacent = True
 
