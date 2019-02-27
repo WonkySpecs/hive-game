@@ -28,12 +28,11 @@ class Move:
         else:
             raise AttributeError("Move 'type' must be a MoveType. Was '" + self.move_type + "'")
 
-    def translate_to_board_function(self):
+    def execute(self, game_state):
         if self.move_type == MoveType.PLACE:
-            return lambda board, player: Board.add_tile(board, Tile(self.tile_identifier, player),
-                                                        self.target_coordinate)
+            game_state.board.add_tile(Tile(self.tile_identifier, game_state.player_turn), self.target_coordinate)
         elif self.move_type == MoveType.MOVE:
-            return lambda board, player: Board.move_tile(board, self.tile_identifier, self.target_coordinate)
+            game_state.board.move_tile(self.tile_identifier, self.target_coordinate)
 
     def is_legal(self, game_state):
         if self.move_type == MoveType.PLACE:

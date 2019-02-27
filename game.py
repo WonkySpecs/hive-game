@@ -13,9 +13,7 @@ class Game:
 			move = next(self.player_inputs[self.game_state.player_turn])
 			legal, msg = move.is_legal(self.game_state)
 			if legal:
-				move.translate_to_board_function()(self.game_state.board, self.game_state.player_turn)
-				self.game_state.move_history.append(move)
-				self.game_state.next_player_turn()
+				self.game_state.execute(move)
 			else:
 				print("Illegal move: " + msg)
 			print(self.game_state.board)

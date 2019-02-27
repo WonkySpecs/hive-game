@@ -22,6 +22,11 @@ class GameState:
 
         return winners if winners else None
 
+    def execute(self, move):
+        move.execute(self)
+        self.move_history.append(move)
+        self.next_player_turn()
+
     def next_player_turn(self):
         self.player_turn = (self.player_turn + 1) % len(self.players)
 
@@ -38,7 +43,7 @@ class GameState:
             return False, IllegalPlacement.space_not_empty
 
         if len(self.move_history) < len(self.players):
-            return True
+            return True, None
 
         neighbours = self.board.get_neighbouring_tiles(coordinate)
         friendly_piece_adjacent = False
