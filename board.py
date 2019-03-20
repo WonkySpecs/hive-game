@@ -40,10 +40,10 @@ class Board:
         return True
 
     def get_neighbouring_tiles(self, coordinate: Tuple[int, int]) -> List[Tile]:
-        return [self.get_tile_at((x, y)) for (x, y) in Board._neighbouring_coordinates(coordinate)]
+        return [self.get_tile_at((x, y)) for (x, y) in Board.get_neighbouring_coordinates(coordinate)]
 
     @staticmethod
-    def _neighbouring_coordinates(coordinate: Tuple[int, int]) -> List[Tuple[int, int]]:
+    def get_neighbouring_coordinates(coordinate: Tuple[int, int]) -> List[Tuple[int, int]]:
         (i, j) = coordinate
         neighbours = [(i - 1, j), (i + 1, j)]
         if j % 2 == 0:
@@ -70,7 +70,7 @@ class Board:
         while unexplored_coords:
             exploring = unexplored_coords.pop()
             coords_with_connected_tiles.add(exploring)
-            for neighbour_coord in self._neighbouring_coordinates(exploring):
+            for neighbour_coord in self.get_neighbouring_coordinates(exploring):
                 neighbour = self.get_tile_at(neighbour_coord)
                 if neighbour and neighbour_coord not in coords_with_connected_tiles:
                     unexplored_coords.add(neighbour_coord)

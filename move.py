@@ -1,6 +1,5 @@
 from enum import Enum, auto
 from tile import Creature, Tile
-from board import Board
 
 
 class MoveType(Enum):

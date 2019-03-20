@@ -58,25 +58,25 @@ class BoardTest(unittest.TestCase):
         self.assertFalse(board.is_hive_connected())
 
     def test__neighbouring_coordinates_even_column_even_row(self):
-        actual = Board._neighbouring_coordinates((0, 0))
+        actual = Board.get_neighbouring_coordinates((0, 0))
         expected = [(0, 1), (1, 0), (0, -1), (-1, -1), (-1, 0), (-1, 1)]
 
         self.assert_coordinate_lists_match(expected, actual)
 
     def test__neighbouring_coordinates_odd_column_even_row(self):
-        actual = Board._neighbouring_coordinates((0, 1))
+        actual = Board.get_neighbouring_coordinates((0, 1))
         expected = [(1, 2), (1, 1), (1, 0), (0, 0), (-1, 1), (0, 2)]
 
         self.assert_coordinate_lists_match(expected, actual)
 
     def test__neighbouring_coordinates_even_column_odd_row(self):
-        actual = Board._neighbouring_coordinates((1, 0))
+        actual = Board.get_neighbouring_coordinates((1, 0))
         expected = [(1, 1), (2, 0), (1, -1), (0, -1), (0, 0), (0, 1)]
 
         self.assert_coordinate_lists_match(expected, actual)
 
     def test__neighbouring_coordinates_odd_column_odd_row(self):
-        actual = Board._neighbouring_coordinates((-1, -1))
+        actual = Board.get_neighbouring_coordinates((-1, -1))
         expected = [(0, 0), (0, -1), (0, -2), (-1, -2), (-2, -1), (-1, 0)]
 
         self.assert_coordinate_lists_match(expected, actual)

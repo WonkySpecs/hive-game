@@ -19,7 +19,7 @@ class BoardTest(unittest.TestCase):
         game_state = GameState()
         game_state.execute(move)
 
-        for coord in Board._neighbouring_coordinates((0, 0)):
+        for coord in Board.get_neighbouring_coordinates((0, 0)):
             result, msg = game_state.is_placement_legal(Creature.ANT, coord)
             self.assertTrue(result)
             self.assertTrue(msg is None)

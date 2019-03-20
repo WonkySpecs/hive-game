@@ -2,6 +2,7 @@ from player import Player
 from board import Board
 from tile import Creature
 from message_strings import IllegalPlacement, IllegalMovement
+from movement_rules import rules
 
 
 class GameState:
@@ -59,4 +60,16 @@ class GameState:
         return friendly_piece_adjacent, IllegalPlacement.no_friendly_tile_adjacent
 
     def is_movement_legal(self, start_coordinate, end_coordinate):
-        return True
+        if not self.board.queen_coordinates[self.player_turn]:
+            return False, IllegalMovement.queen_not_placed
+
+        selected_tile = self.board.get_tile_at(start_coordinate)
+        if selected_tile.player != self.player_turn:
+            return False, IllegalMovement.not_friendly_tile
+
+        self.board.remove_tile(start_coordinate)
+        if not self.board.is_hive_connected():
+            self.board.add_tile(selected_tile, start_coordinate)
+            return False, IllegalMovement.hive_not_connected
+
+        return rules.get(selected_tile.creature)(self.board, start_coordinate, end_coordinate)
