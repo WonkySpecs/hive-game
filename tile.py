@@ -3,11 +3,11 @@ from dataclasses import dataclass
 
 
 class Creature(Enum):
-    QUEEN = auto()
-    BEETLE = auto()
-    GRASSHOPPER = auto()
-    SPIDER = auto()
-    ANT = auto()
+    QUEEN = "Q"
+    BEETLE = "B"
+    GRASSHOPPER = "G"
+    SPIDER = "S"
+    ANT = "A"
 
 
 @dataclass(frozen=True)
@@ -18,3 +18,9 @@ class Tile:
 
     def __str__(self):
         return f"Player {self.player} {self.creature}"
+
+    def player_colour(self):
+    	return "w" if self.player == 0 else "b"
+
+    def to_symbol(self):
+    	return str(self.player_colour()) + self.creature.value

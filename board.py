@@ -1,6 +1,7 @@
 from tile import Creature, Tile
 from stack import Stack
 from typing import List, Tuple, Dict
+from functools import reduce
 
 
 class Board:
@@ -78,9 +79,25 @@ class Board:
         return len(coords_with_connected_tiles) == num_tiles
 
     def __str__(self):
-        s = "Board:\n"
+        min_coords = reduce((lambda c1, c2: (min(c1[0], c2[0]), min(c1[0], c2[0]))), self.grid.keys())
+        max_coords = reduce((lambda c1, c2: (max(c1[1], c2[1]), max(c1[1], c2[1]))), self.grid.keys())
+        x_range = [min_coords[0], max_coords[0]]
+        y_range = [min_coords[1], max_coords[1]]
+        s = ""
+        for row_num in range(y_range[1], y_range[0] - 1, -1):
+            row_s = "" if row_num % 2 == 0 else "  "
+            for col_num in range(x_range[0], x_range[1] + 1):
+                t = self.get_tile_at((col_num, row_num))
+                row_s += (t.to_symbol() if t else "--") + "  "
+            s += row_s + "\n"
+        return s
+
+    def __repr__(self):
+        s = "Board { "
         for coord, stack in self.grid.items():
             tile = stack.top()
             if tile:
                 s += f"{coord}: {tile}\n"
+        s += " }"
         return s
+
