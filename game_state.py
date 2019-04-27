@@ -36,7 +36,7 @@ class GameState:
             return False, IllegalPlacement.creature_unavailable
 
         if not self.board.queen_coordinates[self.player_turn] \
-                and (len(self.move_history) - self.player_turn) / len(self.players) >= 3\
+                and (len(self.move_history) - self.player_turn) / len(self.players) >= 3 \
                 and tile_creature is not Creature.QUEEN:
             return False, IllegalPlacement.queen_placement_required
 
@@ -46,7 +46,7 @@ class GameState:
         neighbours = self.board.get_neighbouring_tiles(coordinate)
 
         if len(self.move_history) == 0:
-        	return True, None
+            return True, None
 
         friendly_piece_adjacent = False
 

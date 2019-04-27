@@ -20,7 +20,7 @@ class Tile:
         return f"Player {self.player} {self.creature}"
 
     def player_colour(self):
-    	return "w" if self.player == 0 else "b"
+        return "w" if self.player == 0 else "b"
 
     def to_symbol(self):
-    	return str(self.player_colour()) + self.creature.value
+        return str(self.player_colour()) + self.creature.value
