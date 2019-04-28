@@ -20,9 +20,17 @@ def player_2_moves():
 
 
 def moves_from_console():
-    pass
+    while True:
+        print("Enter move: ")
+        m = Move.from_string(input())
+        while not m:
+            print("Invalid move: Must be either\n "
+                  "M (a,b) (c,d) for integers a, b, c, d or\n "
+                  "P C (a,b) for creature type C")
+            m = Move.from_string(input())
+        yield m
 
 
 if __name__ == "__main__":
-    game = Game([player_1_moves(), player_2_moves()])
+    game = Game([moves_from_console(), player_2_moves()])
     game.play()
